@@ -1,6 +1,6 @@
 {
-  "name": "GPT-3 Writer",
-  "description": "Write a blog post in the style of your favorite thinker anywhere!",
+  "name": "Ghost AI Writer",
+  "description": "AI Based extention to assist you in writing: anywhere and everywhere.",
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
@@ -11,6 +11,10 @@
   },
   "action": {
     "default_popup": "index.html",
-    "default_title": "Generate blog post"
-  }
+    "default_title": "Ghost AI Writer"
+  },
+  "background": {
+    "service_worker": "scripts/contextMenuServiceWorker.js"
+  },
+  "permissions": ["contextMenus", "tabs", "storage"]
 }
