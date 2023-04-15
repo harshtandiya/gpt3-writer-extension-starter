@@ -8,6 +8,22 @@ const getKey = () => {
         });
     });
 };
+
+const sendMessage = (content) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const activeTab = tabs[0].id;
+
+    chrome.tabs.sendMessage(
+      activeTab,
+      { message: 'inject', content },
+      (response) => {
+        if (response.status === 'failed') {
+          console.log('injection failed.');
+        }
+      }
+    );
+  });
+};
   
 
 const generate = async (prompt) => {
@@ -34,12 +50,16 @@ const generate = async (prompt) => {
 
 const generateCompletionAction = async (info) => {
     try {
+        sendMessage('writing...');
+
         const { selectionText } = info;
         // const basePromptPrefix = ``;
         const baseCompletion  = await generate(`${selectionText}`)
-        console.log(baseCompletion.text)
+        
+        sendMessage(`${selectionText}` + baseCompletion.text);
       } catch (error) {
         console.log(error);
+        sendMessage('error: ' + error.toString());
       }
     
 }
